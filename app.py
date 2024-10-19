@@ -15,6 +15,7 @@ from Funciones.Administracion.POST_AprobarDoc import POST_AprobarDoc
 
 from Funciones.Busqueda.GET_BuscarDocs import GET_BuscarDocs
 from Funciones.Busqueda.GET_FiltrarDocs import GET_FiltrarDocs
+from Funciones.Busqueda.GET_BuscarMisDocs import GET_BuscarMisDocs
 
 from Funciones.Calificaciones.POST_AgregarCal import POST_AgregarCal
 from Funciones.Calificaciones.POST_DescargarDoc import POST_DescargarDoc
@@ -41,6 +42,7 @@ app.register_blueprint(POST_AprobarDoc)
 
 app.register_blueprint(GET_BuscarDocs)
 app.register_blueprint(GET_FiltrarDocs)
+app.register_blueprint(GET_BuscarMisDocs)
 
 app.register_blueprint(POST_AgregarCal)
 app.register_blueprint(POST_DescargarDoc)
