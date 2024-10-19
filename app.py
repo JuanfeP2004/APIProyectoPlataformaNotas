@@ -12,7 +12,7 @@ from Funciones.Servicios.BaseDatos import Config
 #from Funciones.Administracion.DEL_Documento import DEL_Documento
 #from Funciones.Administracion.DEL_Usuario import DEL_Usuario
 
-#from Funciones.Calificaciones.POST_AgregarCom import POST_AgregarCom
+from Funciones.Calificaciones.POST_AgregarCom import POST_AgregarCom
 
 from Funciones.GestionDocumentos.POST_SubirDoc import POST_SubirDoc
 from Funciones.GestionDocumentos.PUT_EditarDoc import PUT_EditarDoc
@@ -32,7 +32,7 @@ mongo = PyMongo(app)
 #app.register_blueprint(DEL_Documento)
 #app.register_blueprint(DEL_Usuario)
 
-#app.register_blueprint(POST_AgregarCom)
+app.register_blueprint(POST_AgregarCom)
 
 app.register_blueprint(POST_SubirDoc)
 app.register_blueprint(PUT_EditarDoc)
