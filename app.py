@@ -12,6 +12,7 @@ from Funciones.Servicios.BaseDatos import Config
 #from Funciones.Administracion.DEL_Documento import DEL_Documento
 #from Funciones.Administracion.DEL_Usuario import DEL_Usuario
 from Funciones.Administracion.POST_AprobarDoc import POST_AprobarDoc
+from Funciones.Administracion.GET_BuscarTodosDocs import GET_BuscarTodosDocs
 
 from Funciones.Busqueda.GET_BuscarDocs import GET_BuscarDocs
 from Funciones.Busqueda.GET_FiltrarDocs import GET_FiltrarDocs
@@ -39,6 +40,7 @@ mongo = PyMongo(app)
 #app.register_blueprint(DEL_Documento)
 #app.register_blueprint(DEL_Usuario)
 app.register_blueprint(POST_AprobarDoc)
+app.register_blueprint(GET_BuscarTodosDocs)
 
 app.register_blueprint(GET_BuscarDocs)
 app.register_blueprint(GET_FiltrarDocs)
