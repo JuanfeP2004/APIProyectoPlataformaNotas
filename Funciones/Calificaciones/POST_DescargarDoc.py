@@ -1,9 +1,7 @@
 import os
 import sys
 import json
-from datetime import datetime
 from bson.objectid import ObjectId
-from statistics import mean
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')

@@ -74,6 +74,7 @@ def SubirDocumento():
             "archivo": ubicacion,
             "numero_descargas": 0,
             "calificacion_promedio": 0,
+            "numero_reportes": 0,
             "aprobado": False
         }
 
