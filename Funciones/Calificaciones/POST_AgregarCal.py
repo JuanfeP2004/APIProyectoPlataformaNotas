@@ -12,12 +12,12 @@ sys.path.append( ruta_config )
 from flask import Blueprint, request, jsonify
 # Falta importar la funcion de base de datos
 
-POST_AgregarCom = Blueprint('POST_AgregarCom', __name__)
+POST_AgregarCal = Blueprint('POST_AgregarCal', __name__)
 
 # Esta funcion recibe un POST con un form que tiene un archivo y un JSON con los campos especificados:
-# (id, calificacion, comentario)
-@POST_AgregarCom.route('/AgregarComentario', methods=['POST'])
-def AgregarComentario():
+# (id usuario, id documento, calificacion)
+@POST_AgregarCal.route('/AgregarCalificacion', methods=['POST'])
+def AgregarCalificacion():
     try:
 
         from app import mongo
