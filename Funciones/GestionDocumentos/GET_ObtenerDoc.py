@@ -1,45 +1,47 @@
 import os
 import sys
-import uuid
+import io
 import json
+from bson.objectid import ObjectId
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
 sys.path.append( ruta_config )
 from Servicios.Storage import storage, contenedor
 
-from flask import Blueprint, request, jsonify
-# Falta importar la funcion de base de datos
+from flask import Blueprint, request, jsonify, send_file
 
 GET_ObtenerDoc = Blueprint('GET_ObtenerDoc', __name__)
 
-@GET_ObtenerDoc.route('/ObtenerDocumentos', methods=['GET'])
+@GET_ObtenerDoc.route('/ObtenerDocumento', methods=['GET'])
 def ObtenerDocumento():
     try:
-        if "file" not in request.files:
-            return jsonify({'error': 'No se proporcionó un archivo'}), 400
 
-        metadatos = request.form.get('json')
+        from app import mongo
 
-        if not metadatos:
+        if "json" not in request.form:
             return jsonify({'error': 'No se proporcionó un json'}), 400
 
-        datos = request.form['json']      
-        archivo = request.files["file"]
-        datos_json = json.loads(datos)
+        metadatos = request.form['json']
 
-        nombre = datos_json['nombre']
-        tipo = datos_json['tipo']
-        materia = datos_json['materia']
-        universidad = datos_json['universidad']
+        if not metadatos:
+            return jsonify({'error': 'El JSON esta mal'}), 400    
 
-        unique_id = str(uuid.uuid4())
-        ubicacion = unique_id + '_' + archivo.filename
+        datos_json = json.loads(metadatos)    
 
-        cliente = storage.get_blob_client(container=contenedor, blob=ubicacion)
-        cliente.upload_blob(archivo)
+        id = ObjectId(datos_json['id'])
 
-        return 'Se subio el archivo correctamente'
+        coleccion_doc = mongo.db['documentos']
+
+        existe_doc = coleccion_doc.find_one({'_id': id})
+
+        if not existe_doc:
+            return jsonify({'error': 'No existe ese documento'}), 400
+
+        cliente = storage.get_blob_client(container=contenedor, blob=existe_doc['archivo'])
+        archivo = cliente.download_blob().readall()
+
+        return send_file(io.BytesIO(archivo), download_name=existe_doc['archivo'], as_attachment=True)
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500

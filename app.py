@@ -16,6 +16,7 @@ from Funciones.Servicios.BaseDatos import Config
 
 from Funciones.GestionDocumentos.POST_SubirDoc import POST_SubirDoc
 from Funciones.GestionDocumentos.PUT_EditarDoc import PUT_EditarDoc
+from Funciones.GestionDocumentos.GET_ObtenerDoc import GET_ObtenerDoc
 
 from Funciones.GestionUsuarios.POST_CrearUsuario import POST_CrearUsuario
 from Funciones.GestionUsuarios.PUT_EditarUsuario import PUT_EditarUsuario
@@ -35,6 +36,7 @@ mongo = PyMongo(app)
 
 app.register_blueprint(POST_SubirDoc)
 app.register_blueprint(PUT_EditarDoc)
+app.register_blueprint(GET_ObtenerDoc)
 
 app.register_blueprint(POST_CrearUsuario)
 app.register_blueprint(PUT_EditarUsuario)
