@@ -11,6 +11,9 @@ from Funciones.Servicios.BaseDatos import Config
 #from Funciones.Administracion.DEL_Comentario import DEL_Comentario
 #from Funciones.Administracion.DEL_Documento import DEL_Documento
 #from Funciones.Administracion.DEL_Usuario import DEL_Usuario
+from Funciones.Administracion.POST_AprobarDoc import POST_AprobarDoc
+
+from Funciones.Busqueda.GET_BuscarDocs import GET_BuscarDocs
 
 from Funciones.Calificaciones.POST_AgregarCal import POST_AgregarCal
 from Funciones.Calificaciones.POST_DescargarDoc import POST_DescargarDoc
@@ -33,6 +36,9 @@ mongo = PyMongo(app)
 #app.register_blueprint(DEL_Comentario)
 #app.register_blueprint(DEL_Documento)
 #app.register_blueprint(DEL_Usuario)
+app.register_blueprint(POST_AprobarDoc)
+
+app.register_blueprint(GET_BuscarDocs)
 
 app.register_blueprint(POST_AgregarCal)
 app.register_blueprint(POST_DescargarDoc)
