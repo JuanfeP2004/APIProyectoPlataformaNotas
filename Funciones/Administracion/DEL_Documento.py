@@ -1,41 +1,52 @@
 import os
 import sys
-import uuid
 import json
+from bson.objectid import ObjectId
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
 sys.path.append( ruta_config )
 from Servicios.Storage import storage, contenedor
-from app import mongo
 
 from flask import Blueprint, request, jsonify
 # Falta importar la funcion de base de datos
 
 DEL_Documento = Blueprint('DEL_Documento', __name__)
 
-# Esta funcion recibe un POST con un form que tiene un archivo y un JSON con los campos especificados:
-# (nombre, tipo, materia, universidad)
+# (id)
 @DEL_Documento.route('/BorrarDocumento', methods=['DELETE'])
 def BorrarDocumento():
     try:
-        '''
-        metadatos = request.form.get('json')
+        
+        from app import mongo
+
+        if 'json' not in request.form:
+            return jsonify({'error': 'No se proporcionó un JSON'}), 400
+
+        metadatos = request.form['json']
 
         if not metadatos:
-            return jsonify({'error': 'No se proporcionó un json'}), 400
+            return jsonify({'error': 'El JSON esta mal'}), 400   
 
-        datos = request.form['json']
-        datos_json = json.loads(datos)
+        datos_json = json.loads(metadatos)
 
-        id = datos_json['id']
+        documento_id = ObjectId(datos_json['id'])
 
-        resultado = mongo.db.comentarios.delete_one({"_id": ObjectId(id)})
+        documentos = mongo.db['documentos']
+        calificaciones = mongo.db['calificaciones']
 
-        if resultado.deleted_count > 0:
-            return f"Usuario con id {id} eliminado correctamente."
-        else:
-            return jsonify({"error": 'Usuario no encontrado'}), 400
-        '''
+        documento = documentos.find_one({'_id': documento_id})
+        if not documento:
+            return jsonify({'error': 'No existe ese documento'}), 400 
+
+        cliente = storage.get_blob_client(container=contenedor, blob=documento['archivo'])
+
+        resultado_1 = calificaciones.delete_many({"documento": documento_id})
+        resultado_2 = documentos.delete_one({"_id": documento_id})
+        cliente.delete_blob()
+
+        return jsonify({"ok": "Se ha borrado el documento correctamente"}), 200
+        
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500 
