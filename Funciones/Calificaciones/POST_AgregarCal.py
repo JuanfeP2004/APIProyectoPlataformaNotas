@@ -63,8 +63,8 @@ def AgregarCalificacion():
         }
 
         
-        coleccion_doc = mongo.db['calificaciones']
-        lista_calificaciones = list(coleccion_doc.find())
+        coleccion_cal = mongo.db['calificaciones']
+        lista_calificaciones = list(coleccion_cal.find({'documento': documento_id}))
         lista_promedio = []
 
         for calif in lista_calificaciones:

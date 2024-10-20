@@ -41,6 +41,12 @@ def ObtenerDocumento():
         cliente = storage.get_blob_client(container=contenedor, blob=existe_doc['archivo'])
         archivo = cliente.download_blob().readall()
 
+        documento = {
+            "numero_descargas": existe_doc['numero_descargas'] + 1, 
+        }
+
+        resultado = coleccion_doc.update_one({"_id": id}, {"$set": documento})
+
         return send_file(io.BytesIO(archivo), download_name=existe_doc['archivo'], as_attachment=True)
     
     except Exception as e:
