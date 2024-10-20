@@ -1,12 +1,16 @@
 # pip install azure-storage-blob
 # pip install Flask-PyMongo
 # pip install python-dotenv
+# pip install Flask-Mail
 
 # Correr: python -m flask run
 
 from flask import Flask
 from flask_pymongo import PyMongo 
+from flask_mail import Mail
 from Funciones.Servicios.BaseDatos import Config
+from Funciones.Servicios.Correo import Correo
+
 
 from Funciones.Administracion.DEL_BorrarCal import DEL_Comentario
 from Funciones.Administracion.DEL_Documento import DEL_Documento
@@ -29,12 +33,22 @@ from Funciones.GestionDocumentos.GET_ObtenerDoc import GET_ObtenerDoc
 from Funciones.GestionUsuarios.POST_CrearUsuario import POST_CrearUsuario
 from Funciones.GestionUsuarios.PUT_EditarUsuario import PUT_EditarUsuario
 from Funciones.GestionUsuarios.GET_IniciarSesion import GET_IniciarSesion
+from Funciones.GestionUsuarios.GET_RecuperarCon import GET_RecuperarCon
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = Correo.EMAIL
+app.config['MAIL_PASSWORD'] = Correo.PASSWORD
+app.config['MAIL_DEFAULT_SENDER'] = Correo.EMAIL
+
 mongo = PyMongo(app)
+mail = Mail(app)
+
 
 app.register_blueprint(DEL_Comentario)
 app.register_blueprint(DEL_Documento)
@@ -57,3 +71,4 @@ app.register_blueprint(GET_ObtenerDoc)
 app.register_blueprint(POST_CrearUsuario)
 app.register_blueprint(PUT_EditarUsuario)
 app.register_blueprint(GET_IniciarSesion)
+app.register_blueprint(GET_RecuperarCon)
