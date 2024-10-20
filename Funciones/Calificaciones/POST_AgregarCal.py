@@ -5,7 +5,7 @@ from datetime import datetime
 from bson.objectid import ObjectId
 from statistics import mean
 
-# Ver comentarios que por alguna razon estan fallando
+# Ver comentarios que por alguna razon estan fallando, con comentarios ajenos
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')

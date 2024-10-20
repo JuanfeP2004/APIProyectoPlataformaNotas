@@ -10,7 +10,7 @@ from Funciones.Servicios.BaseDatos import Config
 
 from Funciones.Administracion.DEL_BorrarCal import DEL_Comentario
 from Funciones.Administracion.DEL_Documento import DEL_Documento
-#from Funciones.Administracion.DEL_Usuario import DEL_Usuario
+from Funciones.Administracion.DEL_BorrarUsuario import DEL_BorrarUsuario
 from Funciones.Administracion.POST_AprobarDoc import POST_AprobarDoc
 from Funciones.Administracion.GET_BuscarTodosDocs import GET_BuscarTodosDocs
 
@@ -38,7 +38,7 @@ mongo = PyMongo(app)
 
 app.register_blueprint(DEL_Comentario)
 app.register_blueprint(DEL_Documento)
-#app.register_blueprint(DEL_Usuario)
+app.register_blueprint(DEL_BorrarUsuario)
 app.register_blueprint(POST_AprobarDoc)
 app.register_blueprint(GET_BuscarTodosDocs)
 
