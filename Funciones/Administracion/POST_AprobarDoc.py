@@ -8,6 +8,7 @@ ruta_config = os.path.join( ruta_archivo, '..')
 sys.path.append( ruta_config )
 
 from flask import Blueprint, request, jsonify
+from Funciones.Servicios.Autenticacion import AutenticacionUsuario
 
 POST_AprobarDoc = Blueprint('POST_AprobarDoc', __name__)
 
@@ -19,6 +20,11 @@ def AprobarDocumento():
 
         from app import mongo
 
+        usuario = AutenticacionUsuario(request=request, roles=['admin'])
+
+        if usuario is None:
+            return jsonify({'error': 'Credenciales invalidas'}), 401
+
         if 'json' not in request.form:
             return jsonify({'error': 'No se proporcionó un JSON'}), 400
 
@@ -29,15 +35,16 @@ def AprobarDocumento():
 
         datos_json = json.loads(metadatos)
 
-        usuario_id = ObjectId(datos_json['usr_id'])
+        #usuario_id = ObjectId(datos_json['usr_id'])
         documento_id = ObjectId(datos_json['doc_id'])
 
+        # Revisar
         coleccion_usr = mongo.db['Usuarios']
         coleccion_doc = mongo.db['documentos']
 
-        exist_usr = coleccion_usr.find_one({'_id': usuario_id})
-        if not exist_usr:
-            return jsonify({'error': 'No existe el usuario'}), 400 
+        #exist_usr = coleccion_usr.find_one({'_id': usuario_id})
+        #if not exist_usr:
+        #    return jsonify({'error': 'No existe el usuario'}), 400 
 
         exist_doc = coleccion_doc.find_one({'_id': documento_id})
         if not exist_doc:

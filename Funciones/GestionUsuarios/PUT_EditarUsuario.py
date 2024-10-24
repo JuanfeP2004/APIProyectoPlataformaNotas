@@ -7,6 +7,7 @@ ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
 sys.path.append( ruta_config )
 
+from Servicios.Autenticacion import AutenticacionUsuario
 
 from flask import Blueprint, request, jsonify
 # Falta importar la funcion de base de datos
@@ -18,7 +19,12 @@ PUT_EditarUsuario = Blueprint('PUT_EditarUsuario', __name__)
 @PUT_EditarUsuario.route('/EditarUsuario', methods=['PUT'])
 def EditarUsuario():
     try:
-        from app import mongo
+        from app import mongo, bcrypt
+
+        usuario = AutenticacionUsuario(request=request, roles=['usuario','admin'])
+
+        if usuario is None:
+            return jsonify({'error': 'Credenciales invalidas'}), 401
 
         if 'json' not in request.form:
             return jsonify({'error': 'No se proporcionó un JSON'}), 400
@@ -30,7 +36,8 @@ def EditarUsuario():
 
         datos_json = json.loads(metadatos)
 
-        id = ObjectId(datos_json['id'])
+        #id = ObjectId(datos_json['id'])
+        id = ObjectId(usuario['_id'])
         nombre = str.upper(datos_json['nombre'])
         email = datos_json['email']
         contrasenia = datos_json['contrasenia']
@@ -68,11 +75,12 @@ def EditarUsuario():
         if not val_uni:
             return jsonify({'error': 'No existe esa universidad'}), 400
 
+        hash_contrasenia = bcrypt.generate_password_hash(password=contrasenia).decode('utf-8')
 
         documento = {
             "nombre_completo": nombre, 
             "email": email,
-            "contrasenia": contrasenia,
+            "contrasenia": hash_contrasenia,
             "universidad_id": val_uni['_id'],
         }
 

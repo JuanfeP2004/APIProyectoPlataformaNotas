@@ -10,6 +10,7 @@ ruta_config = os.path.join( ruta_archivo, '..')
 sys.path.append( ruta_config )
 
 from flask import Blueprint, request, jsonify
+from Servicios.Autenticacion import AutenticacionUsuario
 
 DEL_Comentario = Blueprint('DEL_Comentario', __name__)
 
@@ -20,6 +21,11 @@ def BorrarCalificacion():
     try:
 
         from app import mongo
+
+        usuario = AutenticacionUsuario(request=request, roles=['admin'])
+
+        if usuario is None:
+            return jsonify({'error': 'Credenciales invalidas'}), 401
 
         if 'json' not in request.form:
             return jsonify({'error': 'No se proporcionó un JSON'}), 400

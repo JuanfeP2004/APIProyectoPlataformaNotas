@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from flask_bcrypt import Bcrypt
 from datetime import datetime
 
 ruta_archivo = os.path.dirname( __file__ )
@@ -18,7 +19,7 @@ POST_CrearUsuario = Blueprint('POST_CrearUsuario', __name__)
 @POST_CrearUsuario.route('/CrearUsuario', methods=['POST'])
 def CrearUsuario():
     try:
-        from app import mongo
+        from app import mongo, bcrypt
 
         if 'json' not in request.form:
             return jsonify({'error': 'No se proporcionó un JSON'}), 400
@@ -36,6 +37,8 @@ def CrearUsuario():
         universidad = datos_json['universidad']
         fecha = datetime.now()
 
+        rol = datos_json.get('rol', 'usuario')
+
         # Validaciones
 
         if nombre in (None, ''):
@@ -44,6 +47,8 @@ def CrearUsuario():
             return jsonify({'error': 'El email no puede estar en blanco o vacio'}), 400
         if contrasenia in (None, ''):
             return jsonify({'error': 'La contraseña no puede estar en blanco o vacia'}), 400
+        if rol in (None, ''):
+            return jsonify({'error': 'El rol no puede estar en blanco o vacio'}), 400
 
         coleccion = mongo.db['Usuarios']
         universidades = mongo.db['universidades']
@@ -65,10 +70,13 @@ def CrearUsuario():
             return jsonify({'error': 'No existe esa universidad'}), 400
 
 
+        hash_contrasenia = bcrypt.generate_password_hash(password=contrasenia).decode('utf-8')
+
         documento = {
             "nombre_completo": nombre, 
             "email": email,
-            "contrasenia": contrasenia,
+            "contrasenia": hash_contrasenia,
+            "rol": rol,
             "universidad_id": val_uni['_id'],
             "fecha_registro": fecha,
             "ultima_fecha_acceso": fecha

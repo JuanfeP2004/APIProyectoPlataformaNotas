@@ -8,6 +8,7 @@ ruta_config = os.path.join( ruta_archivo, '..')
 sys.path.append( ruta_config )
 
 from flask import Blueprint, request, jsonify
+from Funciones.Servicios.Autenticacion import AutenticacionUsuario
 
 POST_ReportarDoc = Blueprint('POST_ReportarDoc', __name__)
 
@@ -19,6 +20,11 @@ def ReportarDocumento():
 
         from app import mongo
 
+        usuario = AutenticacionUsuario(request=request, roles=['usuario'])
+
+        if usuario is None:
+            return jsonify({'error': 'Credenciales invalidas'}), 401
+
         if 'json' not in request.form:
             return jsonify({'error': 'No se proporcionó un JSON'}), 400
 
@@ -29,7 +35,8 @@ def ReportarDocumento():
 
         datos_json = json.loads(metadatos)
 
-        usuario_id = ObjectId(datos_json['usr_id'])
+        #usuario_id = ObjectId(datos_json['usr_id'])
+        usuario_id = ObjectId(usuario['_id'])
         documento_id = ObjectId(datos_json['doc_id'])
 
         coleccion_usr = mongo.db['Usuarios']

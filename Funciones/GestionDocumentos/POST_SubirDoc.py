@@ -9,6 +9,7 @@ ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
 sys.path.append( ruta_config )
 from Servicios.Storage import storage, contenedor
+from Servicios.Autenticacion import AutenticacionUsuario
 
 from flask import Blueprint, request, jsonify
 # Falta importar la funcion de base de datos
@@ -21,6 +22,11 @@ POST_SubirDoc = Blueprint('POST_SubirDoc', __name__)
 def SubirDocumento():
     try:
         from app import mongo
+
+        usuario = AutenticacionUsuario(request=request, roles=['usuario','admin'])
+
+        if usuario is None:
+            return jsonify({'error': 'Credenciales invalidas'}), 401
 
         if "file" not in request.files:
             return jsonify({'error': 'No se proporcionó un archivo'}), 400
@@ -36,7 +42,8 @@ def SubirDocumento():
         datos_json = json.loads(metadatos)
 
         titulo = datos_json['titulo']
-        usuario_id = ObjectId(datos_json['usr_id'])
+        #usuario_id = ObjectId(datos_json['usr_id'])
+        usuario_id = ObjectId(usuario['_id'])
         tipo = str.upper(datos_json['tipo'])
         materia = str.upper(datos_json['materia'])
         fecha = datetime.now()
@@ -80,7 +87,7 @@ def SubirDocumento():
 
         resultado = mongo.db.documentos.insert_one(documento)
 
-        return jsonify({"ok": f"Usuario agregado con id: {resultado.inserted_id}"}), 200
+        return jsonify({"ok": "El documento se subio correctamente"}), 200
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500 

@@ -11,6 +11,7 @@ sys.path.append( ruta_config )
 from Servicios.Storage import storage, contenedor
 
 from flask import Blueprint, request, jsonify
+from Funciones.Servicios.Autenticacion import AutenticacionUsuario
 
 GET_BuscarMisDocs = Blueprint('GET_BuscarMisDocs', __name__)
 
@@ -19,6 +20,11 @@ def BuscarMisDocumentos():
     try:
 
         from app import mongo
+
+        usuario = AutenticacionUsuario(request=request, roles=['usuario'])
+
+        if usuario is None:
+            return jsonify({'error': 'Credenciales invalidas'}), 401
 
         if 'json' not in request.form:
             return jsonify({'error': 'No se proporcionó un JSON'}), 400
@@ -30,7 +36,9 @@ def BuscarMisDocumentos():
 
         datos_json = json.loads(metadatos)
 
-        usuario_id = ObjectId(datos_json['id'])
+        # Revisar
+        #usuario_id = ObjectId(datos_json['id'])
+        usuario_id = ObjectId(usuario['_id'])
 
         coleccion_doc = mongo.db['documentos']
         coleccion_usr = mongo.db['Usuarios']

@@ -7,6 +7,7 @@ ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
 sys.path.append( ruta_config )
 from Servicios.Storage import storage, contenedor
+from Servicios.Autenticacion import AutenticacionUsuario
 
 from flask import Blueprint, request, jsonify
 # Falta importar la funcion de base de datos
@@ -19,6 +20,11 @@ def BorrarDocumento():
     try:
         
         from app import mongo
+
+        usuario = AutenticacionUsuario(request=request, roles=['admin'])
+
+        if usuario is None:
+            return jsonify({'error': 'Credenciales invalidas'}), 401
 
         if 'json' not in request.form:
             return jsonify({'error': 'No se proporcionó un JSON'}), 400

@@ -11,6 +11,7 @@ sys.path.append( ruta_config )
 from Servicios.Storage import storage, contenedor
 
 from flask import Blueprint, request, jsonify
+from Funciones.Servicios.Autenticacion import AutenticacionUsuario
 
 GET_BuscarTodosDocs = Blueprint('GET_BuscarTodosDocs', __name__)
 
@@ -20,6 +21,10 @@ def BuscarDocumentos():
 
         from app import mongo
 
+        usuario = AutenticacionUsuario(request=request, roles=['admin'])
+
+        if usuario is None:
+            return jsonify({'error': 'Credenciales invalidas'}), 401
 
         coleccion_doc = mongo.db['documentos']
         coleccion_usr = mongo.db['Usuarios']
