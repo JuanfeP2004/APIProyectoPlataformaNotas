@@ -3,6 +3,7 @@ import sys
 import json
 from flask_bcrypt import Bcrypt
 from datetime import datetime
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -17,6 +18,7 @@ POST_CrearUsuario = Blueprint('POST_CrearUsuario', __name__)
 # Esta funcion recibe un POST con un form que tiene un archivo y un JSON con los campos especificados:
 # (nombre, email, contrasenia, universidad)
 @POST_CrearUsuario.route('/CrearUsuario', methods=['POST'])
+@cross_origin()
 def CrearUsuario():
     try:
         from app import mongo, bcrypt

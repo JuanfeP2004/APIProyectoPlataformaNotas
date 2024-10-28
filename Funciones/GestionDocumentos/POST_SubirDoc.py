@@ -4,6 +4,7 @@ import uuid
 import json
 from datetime import datetime
 from bson.objectid import ObjectId
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -19,6 +20,7 @@ POST_SubirDoc = Blueprint('POST_SubirDoc', __name__)
 # Esta funcion recibe un POST con un form que tiene un archivo y un JSON con los campos especificados:
 # (nombre, tipo, materia, universidad)
 @POST_SubirDoc.route('/SubirDocumento', methods=['POST'])
+@cross_origin()
 def SubirDocumento():
     try:
         from app import mongo

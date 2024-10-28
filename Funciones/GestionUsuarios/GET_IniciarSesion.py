@@ -5,6 +5,7 @@ import jwt
 from datetime import datetime, timedelta
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -19,6 +20,7 @@ GET_IniciarSesion = Blueprint('GET_IniciarSesion', __name__)
 # Esta funcion recibe un GET con un form un JSON con los campos especificados:
 # (email, contrasenia)
 @GET_IniciarSesion.route('/IniciarSesion', methods=['GET'])
+@cross_origin()
 def AutenticarUsuario():
     try:
 

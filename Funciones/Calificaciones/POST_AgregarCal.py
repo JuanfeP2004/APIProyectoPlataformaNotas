@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 from bson.objectid import ObjectId
 from statistics import mean
+from flask_cors import cross_origin
 
 # Ver comentarios que por alguna razon estan fallando, con comentarios ajenos
 
@@ -20,6 +21,7 @@ POST_AgregarCal = Blueprint('POST_AgregarCal', __name__)
 # Esta funcion recibe un POST con un form que tiene un archivo y un JSON con los campos especificados:
 # (id usuario, id documento, calificacion)
 @POST_AgregarCal.route('/AgregarCalificacion', methods=['POST'])
+@cross_origin()
 def AgregarCalificacion():
     try:
 

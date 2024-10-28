@@ -2,6 +2,7 @@ import os
 import sys
 import json
 from bson.objectid import ObjectId
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -15,6 +16,7 @@ POST_AprobarDoc = Blueprint('POST_AprobarDoc', __name__)
 # Esta funcion recibe un POST con un form que tiene un archivo y un JSON con los campos especificados:
 # (id usuario, id documento)
 @POST_AprobarDoc.route('/AprobarDocumento', methods=['POST'])
+@cross_origin()
 def AprobarDocumento():
     try:
 

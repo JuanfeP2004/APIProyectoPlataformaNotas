@@ -2,6 +2,7 @@ import os
 import sys
 import json
 from bson.objectid import ObjectId
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -17,6 +18,7 @@ PUT_EditarUsuario = Blueprint('PUT_EditarUsuario', __name__)
 # Esta funcion recibe un POST con un form que tiene un archivo y un JSON con los campos especificados:
 # (id, nombre, email, contrasenia, universidad)
 @PUT_EditarUsuario.route('/EditarUsuario', methods=['PUT'])
+@cross_origin()
 def EditarUsuario():
     try:
         from app import mongo, bcrypt

@@ -4,6 +4,7 @@ import io
 import json
 from bson.objectid import ObjectId
 from datetime import datetime
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -16,6 +17,7 @@ from Funciones.Servicios.Autenticacion import AutenticacionUsuario
 GET_BuscarMisDocs = Blueprint('GET_BuscarMisDocs', __name__)
 
 @GET_BuscarMisDocs.route('/BuscarMisDocumentos', methods=['GET'])
+@cross_origin()
 def BuscarMisDocumentos():
     try:
 

@@ -3,6 +3,7 @@ import sys
 import io
 import json
 from bson.objectid import ObjectId
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -15,6 +16,7 @@ from flask import Blueprint, request, jsonify, send_file
 GET_ObtenerDoc = Blueprint('GET_ObtenerDoc', __name__)
 
 @GET_ObtenerDoc.route('/ObtenerDocumento', methods=['GET'])
+@cross_origin()
 def ObtenerDocumento():
     try:
 

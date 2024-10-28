@@ -3,6 +3,7 @@ import sys
 import json
 from bson.objectid import ObjectId
 from datetime import datetime
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -15,6 +16,7 @@ from flask import Blueprint, request, jsonify
 PUT_EditarDoc = Blueprint('PUT_EditarDoc', __name__)
 
 @PUT_EditarDoc.route('/EditarDocumento', methods=['PUT'])
+@cross_origin()
 def EditarDocumento():
     try:
         from app import mongo

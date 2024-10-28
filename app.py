@@ -13,6 +13,7 @@ from flask_mail import Mail
 from Funciones.Servicios.BaseDatos import Config
 from Funciones.Servicios.Correo import Correo
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 
 
 from Funciones.Administracion.DEL_BorrarCal import DEL_Comentario
@@ -41,6 +42,8 @@ from Funciones.GestionUsuarios.GET_RecuperarCon import GET_RecuperarCon
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+CORS(app=app, resources={r"/*": {"origins":"*"}})
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587

@@ -4,6 +4,7 @@ import traceback
 import json
 from bson.objectid import ObjectId
 from statistics import mean
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -17,6 +18,7 @@ DEL_Comentario = Blueprint('DEL_Comentario', __name__)
 # Esta funcion recibe un DEL
 # (id)
 @DEL_Comentario.route('/BorrarCalificacion', methods=['DELETE'])
+@cross_origin()
 def BorrarCalificacion():
     try:
 

@@ -5,6 +5,7 @@ import json
 from bson.objectid import ObjectId
 from datetime import datetime
 import traceback
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -16,6 +17,7 @@ from flask import Blueprint, request, jsonify
 GET_FiltrarDocs = Blueprint('GET_FiltrarDocs', __name__)
 
 @GET_FiltrarDocs.route('/FiltrarDocumentos', methods=['GET'])
+@cross_origin()
 def FiltrarDocumentos():
     try:
 

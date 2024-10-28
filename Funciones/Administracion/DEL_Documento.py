@@ -2,6 +2,7 @@ import os
 import sys
 import json
 from bson.objectid import ObjectId
+from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
 ruta_config = os.path.join( ruta_archivo, '..')
@@ -16,6 +17,7 @@ DEL_Documento = Blueprint('DEL_Documento', __name__)
 
 # (id)
 @DEL_Documento.route('/BorrarDocumento', methods=['DELETE'])
+@cross_origin()
 def BorrarDocumento():
     try:
         
