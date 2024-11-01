@@ -3,6 +3,7 @@ import sys
 import json
 import uuid
 from flask_mail import Message
+from flask_bcrypt import Bcrypt
 from flask_cors import cross_origin
 
 ruta_archivo = os.path.dirname( __file__ )
@@ -22,7 +23,7 @@ GET_RecuperarCon = Blueprint('GET_RecuperarCon', __name__)
 def AutenticarUsuario():
     try:
 
-        from app import mail, mongo
+        from app import mail, mongo, bcrypt
 
         if 'json' not in request.form:
             return jsonify({'error': 'No se proporcionó un JSON'}), 400
@@ -53,8 +54,10 @@ def AutenticarUsuario():
     
         mail.send(correo)
 
+        hash_contrasenia = bcrypt.generate_password_hash(password=codigo).decode('utf-8')
+
         nueva_contrasenia = {
-            "contrasenia": codigo
+            "contrasenia": hash_contrasenia
         }
 
         usuarios.update_one({'email': email}, {"$set": nueva_contrasenia})
