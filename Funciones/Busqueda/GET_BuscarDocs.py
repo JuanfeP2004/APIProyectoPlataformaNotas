@@ -22,7 +22,7 @@ def BuscarDocumentos():
 
         from app import mongo
 
-        limite = 10
+        limite = 3
         lista_limite = []
 
         coleccion_doc = mongo.db['documentos']

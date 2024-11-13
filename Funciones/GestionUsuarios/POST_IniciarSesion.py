@@ -19,7 +19,7 @@ GET_IniciarSesion = Blueprint('GET_IniciarSesion', __name__)
 
 # Esta funcion recibe un GET con un form un JSON con los campos especificados:
 # (email, contrasenia)
-@GET_IniciarSesion.route('/IniciarSesion', methods=['GET'])
+@GET_IniciarSesion.route('/IniciarSesion', methods=['POST'])
 @cross_origin()
 def AutenticarUsuario():
     try:

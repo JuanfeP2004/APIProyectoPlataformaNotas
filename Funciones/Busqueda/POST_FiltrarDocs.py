@@ -16,7 +16,7 @@ from flask import Blueprint, request, jsonify
 
 GET_FiltrarDocs = Blueprint('GET_FiltrarDocs', __name__)
 
-@GET_FiltrarDocs.route('/FiltrarDocumentos', methods=['GET'])
+@GET_FiltrarDocs.route('/FiltrarDocumentos', methods=['POST'])
 @cross_origin()
 def FiltrarDocumentos():
     try:

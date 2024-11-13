@@ -18,7 +18,7 @@ GET_RecuperarCon = Blueprint('GET_RecuperarCon', __name__)
 
 # Esta funcion recibe un GET con un form un JSON con los campos especificados:
 # (email, contrasenia)
-@GET_RecuperarCon.route('/RecuperarContrasenia', methods=['GET'])
+@GET_RecuperarCon.route('/RecuperarContrasenia', methods=['POST'])
 @cross_origin()
 def AutenticarUsuario():
     try:

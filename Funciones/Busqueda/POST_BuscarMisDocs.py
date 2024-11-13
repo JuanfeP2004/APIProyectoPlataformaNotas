@@ -16,7 +16,7 @@ from Funciones.Servicios.Autenticacion import AutenticacionUsuario
 
 GET_BuscarMisDocs = Blueprint('GET_BuscarMisDocs', __name__)
 
-@GET_BuscarMisDocs.route('/BuscarMisDocumentos', methods=['GET'])
+@GET_BuscarMisDocs.route('/BuscarMisDocumentos', methods=['POST'])
 @cross_origin()
 def BuscarMisDocumentos():
     try:

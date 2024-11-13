@@ -23,8 +23,8 @@ from Funciones.Administracion.POST_AprobarDoc import POST_AprobarDoc
 from Funciones.Administracion.GET_BuscarTodosDocs import GET_BuscarTodosDocs
 
 from Funciones.Busqueda.GET_BuscarDocs import GET_BuscarDocs
-from Funciones.Busqueda.GET_FiltrarDocs import GET_FiltrarDocs
-from Funciones.Busqueda.GET_BuscarMisDocs import GET_BuscarMisDocs
+from Funciones.Busqueda.POST_FiltrarDocs import GET_FiltrarDocs
+from Funciones.Busqueda.POST_BuscarMisDocs import GET_BuscarMisDocs
 
 from Funciones.Calificaciones.POST_AgregarCal import POST_AgregarCal
 #from Funciones.Calificaciones.POST_DescargarDoc import POST_DescargarDoc
@@ -32,12 +32,12 @@ from Funciones.Calificaciones.POST_ReportarDoc import POST_ReportarDoc
 
 from Funciones.GestionDocumentos.POST_SubirDoc import POST_SubirDoc
 from Funciones.GestionDocumentos.PUT_EditarDoc import PUT_EditarDoc
-from Funciones.GestionDocumentos.GET_ObtenerDoc import GET_ObtenerDoc
+from Funciones.GestionDocumentos.POST_ObtenerDoc import GET_ObtenerDoc
 
 from Funciones.GestionUsuarios.POST_CrearUsuario import POST_CrearUsuario
 from Funciones.GestionUsuarios.PUT_EditarUsuario import PUT_EditarUsuario
-from Funciones.GestionUsuarios.GET_IniciarSesion import GET_IniciarSesion
-from Funciones.GestionUsuarios.GET_RecuperarCon import GET_RecuperarCon
+from Funciones.GestionUsuarios.POST_IniciarSesion import GET_IniciarSesion
+from Funciones.GestionUsuarios.POST_RecuperarCon import GET_RecuperarCon
 
 
 app = Flask(__name__)

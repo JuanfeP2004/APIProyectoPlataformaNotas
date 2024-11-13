@@ -15,7 +15,7 @@ from flask import Blueprint, request, jsonify, send_file
 
 GET_ObtenerDoc = Blueprint('GET_ObtenerDoc', __name__)
 
-@GET_ObtenerDoc.route('/ObtenerDocumento', methods=['GET'])
+@GET_ObtenerDoc.route('/ObtenerDocumento', methods=['POST'])
 @cross_origin()
 def ObtenerDocumento():
     try:
